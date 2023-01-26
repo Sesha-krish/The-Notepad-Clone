@@ -1,0 +1,95 @@
+import os.path
+import tkinter.colorchooser
+from tkinter import *
+from tkinter import   colorchooser,font , filedialog
+from tkinter.filedialog import *
+from tkinter.messagebox import *
+def fontchange(*args):
+    te.config(font=(fontname.get(),fontsize.get()))
+def fontcolor():
+    c= colorchooser.askcolor(title="choose your color")
+    te.config(fg=c[1])
+def newf():
+    te.delete(1.0,END)
+def opene():
+
+    x = askopenfilename(defaultextension=".txt",
+                                   filetypes=(("Text file", ".txt"), ("HTML file", ".html"), ("all files", "*.*")))
+    window.title(os.path.basename(x))
+    f = open(str(x), 'r')
+    te.insert(1.0, f.read())
+
+def saves():
+    x=asksaveasfile(defaultextension=".txt",
+                                   filetypes=(("Text file", ".txt"), ("HTML file", ".html"), ("all files", "*.*")))
+    a=str(te.get(1.0,END))
+    x.write(a)
+    x.close()
+def quit():
+    if askokcancel(title='Destroy destroys everything',message='You sure you wanna quit without saving?( ignore if did)'):
+        window.destroy()
+
+def infos():
+    showinfo(title="Welcome to the Great Kirikalan Magic Showw✨",message="Alaikadalane thirandu vanthu, aarpatame illaamal"
+                                                                        " utkaarnthu  irukum User eh! "
+                                                                        "Kanna,look at this program. It's a work of artzzuh. Try to learn a thing or two "
+                                             "from Osama bin laden to know about peace. "
+                                                                         "Kozhi pota muttai la irunthu kozhi varum, Vaathiyar potta mutai la irunthu "
+                                                                         " vaathiyar varuvara? <why are you stilll here?> "
+                                                                        " Click the next menu command to know more ")
+def infoss():
+    showinfo(title="Perumpuluthi XD",message=" Got the man with the plan right Heeyaah! 😎 "
+                                             " Police muthirai la moonu singam tha paathu iruppa,"
+                                             " Pinandi nalavatha onnu iruku, atha paaka nenacha, thaanga maata"
+                                             " <insert ear tearing DSP background music>")
+
+window=Tk()
+window.title("Text editor XD")
+aaa=500
+bbb=500
+scw=window.winfo_screenwidth()
+sch=window.winfo_screenheight()
+x=int((scw/2)-(aaa/2))
+y=int((sch/2)-(bbb/2))
+window.geometry("{}x{}+{}+{}".format(aaa,bbb,x,y))
+
+fontname=StringVar()
+fontname.set("Arial")
+fontsize=IntVar()
+fontsize.set(25)
+me=Menu(window)
+window.config(menu=me)
+fi=Menu(me,tearoff=0)
+Abb=Menu(me,tearoff=0)
+
+me.add_cascade(label="File",menu=fi)
+fi.add_command(label="New text file",command=newf)
+fi.add_command(label="Open",command=opene)
+fi.add_command(label="Saveas",command=saves)
+fi.add_separator()
+fi.add_command(label="Quit",command=quit)
+me.add_cascade(label="About",menu=Abb)
+Abb.add_command(label='About the program',command=infos)
+Abb.add_command(label='About the programmer',command=infoss)
+te=Text(window,font=(fontname.get(),fontsize.get()),bg='light yellow')
+
+window.grid_rowconfigure(0,weight=2)
+window.grid_columnconfigure(0,weight=2)
+te.grid(sticky= N + E + S + W)
+sc=Scrollbar(te)
+sc.pack(side=RIGHT,fill=Y)
+te.config(yscrollcommand=sc.set)
+sc.pack(side=RIGHT,fill=Y)
+
+f=Frame(window)
+f.grid()
+
+fontcl=Button(f,text="Choose the color",command=fontcolor)
+fontcl.grid(row=0,column=0)
+
+fontt=OptionMenu(f,fontname, *font.families(),command=fontchange)
+fontt.grid(row=0,column=1)
+fontss= Spinbox(f,from_=0,to=100,textvariable=fontsize,command=fontchange)
+fontss.grid(row=0,column=2)
+
+window.mainloop()
